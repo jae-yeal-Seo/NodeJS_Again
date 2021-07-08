@@ -1,0 +1,26 @@
+(9강)URL
+http://opentutorials.org:3000/main?id=HTML&page=12
+프로토콜/호스트(도메인)/port/path?query string
+
+1. 호스트(도메인)컴퓨터에 여러 서버가 있음-->어떤 서버를 실행시킬 것인지 선택 : port
+
+2. path : 어떤 디렉토리의 어떤 파일을 실행할 것인지 선택
+
+3. query string : 동적으로 페이지를 만들어주는 URL의 핵심 요소
+
+
+
+(10강)query string의 내용에 따라 다른 내용을 띄워주는 방법
+*검색할 때 : "가장 큰 카테고리 + 명사 + (동사)" 형태로 하는 것이 좋다.
+(nodejs url parse query string)
+*response.end-->결과적으로 화면에 띄우는 것.
+
+1. var url = require('url'); 이 모듈을 통해서 url의 query string에 해당하는 id라는 파라미터를 빼냄
+
+2. var queryData = url.parse(_url, true).query; 를 하면 querystring부분이 따로 나옴.
+(_url은 request.url)
+
+3. response.end(queryData.id)로 queryString부분에서 id의 value값을 화면에 띄운다.
+
+
+(11강)App제작 - 동적인 웹페이지 만들기
