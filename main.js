@@ -8,13 +8,10 @@ var app = http.createServer(function(request,response){
     //url에서 query부분을 딴다.
     var title = queryData.id;
     //query부분에서 id의 파라미터를 title이라는 변수에 저장한다.
-    if(_url == '/'){
-      _url = 'Welcome';
-    }
-    if(_url == '/favicon.ico'){
-      return response.writeHead(404);
-    }
-    response.writeHead(200);
+    
+    console.log(url.parse(_url,true).pathname);
+    //얘를 실행하려면 페이지를  reload해야 하는 이유는 request가 있어야 url을 받는 것이 가능하기 때문이다.
+
     fs.readFile(`data/${queryData.id}`,'utf8',function(err,description){
       //★queryData에서 id라는 파라미터의 value값을 불러와 "data/해당value값"파일을 description이라는 변수를 통해 사용할 수 있게 된다. 
       var template = `
@@ -36,6 +33,7 @@ var app = http.createServer(function(request,response){
 </body>
 </html>
     `
+    response.writeHead(200);
     response.end(template);
     });
     
