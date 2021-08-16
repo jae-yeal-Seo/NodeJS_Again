@@ -3,42 +3,42 @@ var fs = require('fs');
 var url = require('url');
 
 var app = http.createServer(function(request,response){
-    var _url = request.url;
-    var queryData = url.parse(_url, true).query;
-    //url에서 query부분을 딴다.
-    var title = queryData.id;
-    //query부분에서 id의 파라미터를 title이라는 변수에 저장한다.
+  var _url = request.url;
+  var queryData = url.parse(_url, true).query;
+  var title = queryData.id;
+  if(_url == '/'){
+    title = 'Welcome';
+  }
+  if(_url == 'favicon.ico'){
+    return response.writeHead(404);
+  }
+  response.writeHead(200);
+  fs.readFile(`data/${title}`,'utf8',(err,description)=>{
     
-    console.log(url.parse(_url,true).pathname);
-    //얘를 실행하려면 페이지를  reload해야 하는 이유는 request가 있어야 url을 받는 것이 가능하기 때문이다.
-
-    fs.readFile(`data/${queryData.id}`,'utf8',function(err,description){
-      //★queryData에서 id라는 파라미터의 value값을 불러와 "data/해당value값"파일을 description이라는 변수를 통해 사용할 수 있게 된다. 
-      var template = `
+    var template =`
     <!doctype html>
-<html>
-<head>
-  <title>WEB1 - ${title}</title>
-  <meta charset="utf-8">
-</head>
-<body>
-  <h1><a href="index.html">WEB</a></h1>
-  <ol>
-    <li><a href="?id=HTML">HTML</a></li>
-    <li><a href="?id=CSS">CSS</a></li>
-    <li><a href="?id=JavaScript">JavaScript</a></li>
-  </ol>
-  <h2>${title}</h2>
-  <p>${description}</p>
-</body>
-</html>
-    `
-    response.writeHead(200);
-    response.end(template);
-    });
-    
-    //해당 파일을 읽음
-    //response.end가 최종적으로 화면에 보여짐<==이걸 까먹어서 한참 다른파일만 뒤졌다...
+    <html>
+    <head>
+      <title>WEB1 - ${title}</title>
+      <meta charset="utf-8">
+    </head>
+    <body>
+      <h1><a href="/">WEB</a></h1>
+      <ul>
+        <li><a href="/?id=HTML">HTML</a></li>
+        <li><a href="/?id=CSS">CSS</a></li>
+        <li><a href="/?id=JavaScript">JavaScript</a></li>
+      </ul>
+      <h2>${title}</h2>
+      <p>${description}</p>
+    </body>
+    </html>
+      `
+      response.end(template);
+  })
+  
   
 });
-app.listen(3000);
+app.listen(3002);
+
+// fs.readFileSync(__dirname+url)
